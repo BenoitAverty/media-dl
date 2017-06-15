@@ -1,0 +1,48 @@
+version: '3.1'
+
+networks:
+  traefik-network:
+    external: true
+
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    networks:
+      - traefik-network
+    environment:
+      PUID: 9000
+      PGID: 9000
+      TZ: Europe/Paris
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    deploy:
+      labels:
+        - "traefik.docker.network=traefik-network"
+        - "traefik.port=8989"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/sonarr"
+
+  entrypoint:
+    image: emilevauge/whoami
+    networks:
+      - traefik-network
+    deploy:
+      labels:
+        - "traefik.docker.network=traefik-network"
+        - "traefik.port=80"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr"
+
+  nzbget:
+    image: linuxserver/nzbget
+    networks:
+      - traefik-network
+    environment:
+      PUID: 9000
+      PGID: 9000
+      TZ: Europe/Paris
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+    deploy:
+      labels:
+        - "traefik.docker.network=traefik-network"
+        - "traefik.port=6789"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/nzbget"
