@@ -13,7 +13,11 @@
         - ~/stacks
         - /var/swarm-data/config/media-dl/sonarr
         - /var/swarm-data/config/media-dl/nzbget
+        - /var/swarm-data/config/media-dl/torrent
         - /var/download-data/work/nzbget/completed
+        - /var/download-data/work/torrent/completed
+        - /var/download-data/work/torrent/incoming
+        - /var/download-data/work/torrent/watched
         - /var/download-data/TV
     - name: Copy config files
       copy:
@@ -23,6 +27,7 @@
       with_items:
         - { src: ./config/sonarr.xml, dest: /var/swarm-data/config/media-dl/sonarr/config.xml }
         - { src: ./config/nzbget.conf, dest: /var/swarm-data/config/media-dl/nzbget/nzbget.conf }
+        - { src: ./config/torrent/, dest: /var/swarm-data/config/media-dl/torrent/ }
     - name: Copy stack file
       copy:
         src: ./media-dl.yml
