@@ -28,12 +28,22 @@ services:
       - "/etc/localtime:/etc/localtime:ro"
       - "/var/swarm-data/config/media-dl/sonarr/:/config/"
       - "/var/download-data/TV:/tv"
-      - "/var/download-data/work/nzbget:/downloads"
+      - "/var/download-data/work:/downloads"
     deploy:
       labels:
         - "traefik.docker.network=traefik-network"
         - "traefik.port=8989"
         - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefix:/sonarr"
+
+  t411-torznab:
+    image: kilman/t411-torznab
+    networks:
+      - traefik-network
+    environment:
+      USERNAME: "{{ t411_username }}"
+      PASSWORD: "{{ t411_password | safe }}"
+      GID: 9000
+      UID: 9000
 
   torrent:
     image: linuxserver/rutorrent
@@ -44,11 +54,8 @@ services:
       PGID: 9000
       TZ: Europe/Paris
     volumes:
-      - "/var/swarm-data/config/media-dl/torrent/nginx/:/config/nginx/"
-      - "/var/swarm-data/config/media-dl/torrent/php/php.ini:/config/php/php.ini"
-      - "/var/swarm-data/config/media-dl/torrent/rtorrent/rtorrent.rc:/config/rtorrent/rtorrent.rc"
-      - "/var/swarm-data/config/media-dl/torrent/rutorrent/settings/config.php:/config/rutorrent/settings/config.php"
-      - "/var/download-data/work/torrent/:/downloads/"
+      - "/var/swarm-data/config/media-dl/torrent/:/config/"
+      - "/var/download-data/work/:/downloads/"
     ports:
       - "5000:5000"
       - "51413:51413"
@@ -69,7 +76,7 @@ services:
       TZ: Europe/Paris
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/var/download-data/work/nzbget/:/downloads/"
+      - "/var/download-data/work/:/downloads/"
       - "/var/swarm-data/config/media-dl/nzbget/:/config/"
     deploy:
       labels:

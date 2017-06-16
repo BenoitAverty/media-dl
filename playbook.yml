@@ -14,11 +14,11 @@
         - /var/swarm-data/config/media-dl/sonarr
         - /var/swarm-data/config/media-dl/nzbget
         - /var/swarm-data/config/media-dl/torrent
-        - /var/download-data/work/nzbget/completed
-        - /var/download-data/work/torrent/completed
-        - /var/download-data/work/torrent/incoming
-        - /var/download-data/work/torrent/watched
+        - /var/download-data/work/completed # completed nzb
+        - /var/download-data/work/incoming # torrent dl dir
+        - /var/download-data/work/watched # watchdir for torrent files
         - /var/download-data/TV
+        - /var/download-data/Movies
     - name: Copy config files
       copy:
         src: "{{ item.src }}"
@@ -29,8 +29,8 @@
         - { src: ./config/nzbget.conf, dest: /var/swarm-data/config/media-dl/nzbget/nzbget.conf }
         - { src: ./config/torrent/, dest: /var/swarm-data/config/media-dl/torrent/ }
     - name: Copy stack file
-      copy:
-        src: ./media-dl.yml
+      template:
+        src: ./media-dl.yml.j2
         dest: ~/stacks/media-dl.yml
     - name: Stack deployment
       command: docker stack deploy -c ~/stacks/media-dl.yml media-dl
