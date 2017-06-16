@@ -11,6 +11,11 @@
         state: directory
       with_items:
         - ~/stacks
+        - /var/swarm-data/config/media-dl
+    - name: Copy config files
+      copy:
+        src: ./config/sonarr.xml
+        dest: /var/swarm-data/config/media-dl/sonarr.xml
     - name: Copy stack file
       copy:
         src: ./media-dl.yml

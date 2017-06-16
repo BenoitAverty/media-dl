@@ -15,11 +15,12 @@ services:
       TZ: Europe/Paris
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
+      - "/var/swarm-data/config/media-dl/sonarr.xml:/config/config.xml"
     deploy:
       labels:
         - "traefik.docker.network=traefik-network"
         - "traefik.port=8989"
-        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/sonarr"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefix:/sonarr"
 
   entrypoint:
     image: emilevauge/whoami
