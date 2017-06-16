@@ -15,7 +15,9 @@ services:
       TZ: Europe/Paris
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "/var/swarm-data/config/media-dl/sonarr.xml:/config/config.xml"
+      - "/var/swarm-data/config/media-dl/sonarr/:/config/"
+      - "/var/download-data/TV:/tv"
+      - "/var/download-data/work/nzbget:/downloads"
     deploy:
       labels:
         - "traefik.docker.network=traefik-network"
@@ -42,8 +44,10 @@ services:
       TZ: Europe/Paris
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
+      - "/var/download-data/work/nzbget/:/downloads/"
+      - "/var/swarm-data/config/media-dl/nzbget/:/config/"
     deploy:
       labels:
         - "traefik.docker.network=traefik-network"
         - "traefik.port=6789"
-        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/nzbget"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/nzbget/"

@@ -11,11 +11,18 @@
         state: directory
       with_items:
         - ~/stacks
-        - /var/swarm-data/config/media-dl
+        - /var/swarm-data/config/media-dl/sonarr
+        - /var/swarm-data/config/media-dl/nzbget
+        - /var/download-data/work/nzbget/completed
+        - /var/download-data/TV
     - name: Copy config files
       copy:
-        src: ./config/sonarr.xml
-        dest: /var/swarm-data/config/media-dl/sonarr.xml
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        force: no
+      with_items:
+        - { src: ./config/sonarr.xml, dest: /var/swarm-data/config/media-dl/sonarr/config.xml }
+        - { src: ./config/nzbget.conf, dest: /var/swarm-data/config/media-dl/nzbget/nzbget.conf }
     - name: Copy stack file
       copy:
         src: ./media-dl.yml
