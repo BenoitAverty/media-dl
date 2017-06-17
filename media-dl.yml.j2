@@ -35,6 +35,25 @@ services:
         - "traefik.port=8989"
         - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefix:/sonarr"
 
+  radarr:
+    image: linuxserver/radarr
+    networks:
+      - traefik-network
+    environment:
+      PUID: 9000
+      PGID: 9000
+      TZ: Europe/Paris
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/var/swarm-data/config/media-dl/radarr/:/config/"
+      - "/var/download-data/Movies:/movies"
+      - "/var/download-data/work:/downloads"
+    deploy:
+      labels:
+        - "traefik.docker.network=traefik-network"
+        - "traefik.port=7878"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefix:/radarr"
+
   t411-torznab:
     image: kilman/t411-torznab
     networks:

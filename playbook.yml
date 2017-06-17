@@ -12,6 +12,7 @@
       with_items:
         - ~/stacks
         - /var/swarm-data/config/media-dl/sonarr
+        - /var/swarm-data/config/media-dl/radarr
         - /var/swarm-data/config/media-dl/nzbget
         - /var/swarm-data/config/media-dl/torrent
         - /var/download-data/work/completed # completed nzb
@@ -26,6 +27,7 @@
         force: no
       with_items:
         - { src: ./config/sonarr.xml, dest: /var/swarm-data/config/media-dl/sonarr/config.xml }
+        - { src: ./config/radarr.xml, dest: /var/swarm-data/config/media-dl/radarr/config.xml }
         - { src: ./config/nzbget.conf, dest: /var/swarm-data/config/media-dl/nzbget/nzbget.conf }
         - { src: ./config/torrent/, dest: /var/swarm-data/config/media-dl/torrent/ }
     - name: Copy stack file
