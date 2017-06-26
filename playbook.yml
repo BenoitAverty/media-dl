@@ -30,6 +30,10 @@
         - { src: ./config/radarr.xml, dest: /var/swarm-data/config/media-dl/radarr/config.xml }
         - { src: ./config/nzbget.conf, dest: /var/swarm-data/config/media-dl/nzbget/nzbget.conf }
         - { src: ./config/torrent/, dest: /var/swarm-data/config/media-dl/torrent/ }
+    - name: Copy entrypoint app
+      copy:
+        src: ./entrypoint/
+        dest: /var/swarm-data/media-dl/entrypoint-app/
     - name: Copy stack file
       template:
         src: ./media-dl.yml.j2

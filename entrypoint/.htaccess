@@ -1,0 +1,3 @@
+RewriteEngine on
+RewriteRule nzbget nzbget.php
+RewriteRule torrent torrent.php

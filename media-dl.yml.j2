@@ -7,9 +7,12 @@ networks:
 services:
 
   entrypoint:
-    image: emilevauge/whoami
+    image: php:7-apache
+    command: "bash -c 'a2enmod rewrite && apache2-foreground'"
     networks:
       - traefik-network
+    volumes:
+      - "/var/swarm-data/media-dl/entrypoint-app/:/var/www/html/"
     deploy:
       labels:
         - "traefik.docker.network=traefik-network"
@@ -83,7 +86,7 @@ services:
       labels:
         - "traefik.port=80"
         - "traefik.docker.network=traefik-network"
-        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/torrent"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/torrent/"
 
   nzbget:
     image: linuxserver/nzbget
