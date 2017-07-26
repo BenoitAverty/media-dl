@@ -19,6 +19,18 @@ services:
         - "traefik.port=80"
         - "traefik.frontend.rule=Host:media-dl.ab0.fr"
 
+  content:
+    image: nginx:1.13
+    networks:
+      - traefik-network
+    volumes:
+      - "/var/download-data/:/usr/share/nginx/html"
+    deploy:
+      labels:
+        - "traefik.docker.network=traefik-network"
+        - "traefik.port=80"
+        - "traefik.frontend.rule=Host:media-dl.ab0.fr;PathPrefixStrip:/content"
+
   sonarr:
     image: linuxserver/sonarr
     networks:
